@@ -1,0 +1,2 @@
+set USER_NAME=kunst
+set USER_SSHKEY=C:\sshkeys\id_rsa.pub
