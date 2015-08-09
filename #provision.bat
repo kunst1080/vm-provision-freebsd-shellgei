@@ -6,8 +6,9 @@ cd /d "%~dp0"
 
 echo.
 echo ----- load config
+echo   loading config.bat
 call config.bat
-if exist config.user.bat call config.user.bat
+if exist config.user.bat echo   loading config.user.bat & call config.user.bat
 
 
 echo.
@@ -57,17 +58,26 @@ echo.
 echo ----- adduser and transfer SSH key
 %VMRUN_EXE% -gu root -gp vmpass CopyFileFromHostToGuest "%VM_VMX%" "%USER_SSHKEY%" /provision/authorized_keys
 %VMRUN_EXE% -gu root -gp vmpass runProgramInGuest "%VM_VMX%" /bin/sh -c "/bin/sh /provision/provision-adduser.sh %USER_NAME% 1> /provision/provision-adduser.log 2>&1"
+%VMRUN_EXE% -gu root -gp vmpass copyFileFromGuestToHost "%VM_VMX%" /provision/provision-adduser.log output\provision-adduser.log
+type output\provision-adduser.log
 
 
 echo.
-echo ----- execute provisioning scripts
+echo ----- execute provisioning scripts (root)
 %VMRUN_EXE% -gu root -gp vmpass runProgramInGuest "%VM_VMX%" /bin/sh -c "/bin/sh /provision/provision-root.sh 1> /provision/provision-root.log 2>&1"
-%VMRUN_EXE% -gu root -gp vmpass runProgramInGuest "%VM_VMX%" /bin/sh -c "/usr/local/bin/sudo -u %USER_NAME% /bin/sh /provision/provision-user.sh 1> /provision/provision-user.log 2>&1"
+%VMRUN_EXE% -gu root -gp vmpass copyFileFromGuestToHost "%VM_VMX%" /provision/provision-root.log output\provision-root.log
+type output\provision-root.log
 
-pause
+
+echo.
+echo ----- execute provisioning scripts (user)
+%VMRUN_EXE% -gu root -gp vmpass runProgramInGuest "%VM_VMX%" /bin/sh -c "/usr/local/bin/sudo -u %USER_NAME% /bin/sh /provision/provision-user.sh 1> /provision/provision-user.log 2>&1"
+%VMRUN_EXE% -gu root -gp vmpass copyFileFromGuestToHost "%VM_VMX%" /provision/provision-user.log output\provision-user.log
+type output\provision-user.log
 
 
 echo.
 echo ----- reboot
 %VMRUN_EXE% reset "%VM_VMX%"
 
+pause
