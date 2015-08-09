@@ -10,7 +10,7 @@ Provisioning tool for FreeBSD Guests on VMWare Player.
 
 ### Virtual Machine Template requires
  * sudo
- * open-vm-tools)
+ * open-vm-tools
 
 
 ## Build
