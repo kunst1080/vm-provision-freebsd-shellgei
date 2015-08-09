@@ -27,3 +27,11 @@ mv /etc/ssh/sshd_config /etc/ssh/sshd_config.org
 cat /etc/ssh/sshd_config.org \
     | sed "s/#UseDNS yes/UseDNS no/" \
     | sed "s/#ChallengeResponseAuthentication yes/ChallengeResponseAuthentication no/" > /etc/ssh/sshd_config
+
+
+### jman
+cat <<EOS >> /etc/manpath.config
+MANPATH_MAP     /bin            /usr/local/man/ja
+MANPATH_MAP     /usr/bin        /usr/local/man/ja
+EOS
+

@@ -8,7 +8,7 @@ USER=$1
 
 
 ### ADD user
-pw useradd -n $USER -G "operator, wheel" -w random -m -s /bin/tcsh
+echo 'usptomo' | pw useradd -n $USER -G "operator, wheel" -h 0 -m -s /bin/tcsh
 
 
 ### ADD sudoers
