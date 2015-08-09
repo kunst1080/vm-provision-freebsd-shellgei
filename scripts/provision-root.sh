@@ -22,7 +22,7 @@ kern.maxfiles=65536
 EOS
 
 
-### EDTI sshd_config
+### EDIT sshd_config
 mv /etc/ssh/sshd_config /etc/ssh/sshd_config.org
 cat /etc/ssh/sshd_config.org \
     | sed "s/#UseDNS yes/UseDNS no/" \
