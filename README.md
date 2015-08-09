@@ -21,3 +21,8 @@ $ git clone https://github.com/kunst1080/vm-provision-freebsd-base
 ```
 
 and, click <i>#provision.bat</i>.
+
+
+## License
+The MIT License
+
